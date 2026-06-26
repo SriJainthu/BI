@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Browser Intelligence </title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="scanline"></div>
+  <div class="noise"></div>
+
+  <div class="container">
+
+    <header class="header">
+      <div class="header-left">
+        <div class="logo">
+          <span class="logo-bracket">[</span>
+          <span class="logo-text">BID</span>
+          <span class="logo-bracket">]</span>
+        </div>
+        <div class="header-title">
+          <h1>Browser Intelligence Dashboard</h1>
+          <p class="subtitle">Real-time browser fingerprint analysis</p>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="status-indicator">
+          <span class="pulse-dot"></span>
+          <span>LIVE</span>
+        </div>
+        <div class="clock" id="clock">00:00:00</div>
+      </div>
+    </header>
+
+    <nav class="tabs">
+      <button class="tab active" data-tab="identity">Identity</button>
+      <button class="tab" data-tab="device">Device</button>
+      <button class="tab" data-tab="network">Network</button>
+      <button class="tab" data-tab="permissions">Permissions</button>
+      <button class="tab" data-tab="performance">Performance</button>
+      <button class="tab" data-tab="heatmap">Heatmap</button>
+    </nav>
+
+    <main class="content">
+
+      <!-- IDENTITY TAB -->
+      <section class="tab-pane active" id="tab-identity">
+        <div class="grid grid-3">
+          <div class="card" id="card-ip">
+            <div class="card-label">IP Address</div>
+            <div class="card-value accent" id="ip">Fetching...</div>
+            <div class="card-sub" id="isp">—</div>
+          </div>
+          <div class="card" id="card-location">
+            <div class="card-label">Location</div>
+            <div class="card-value" id="location">Detecting...</div>
+            <div class="card-sub" id="coords">lat / lng</div>
+          </div>
+          <div class="card" id="card-tz">
+            <div class="card-label">Timezone</div>
+            <div class="card-value" id="timezone">—</div>
+            <div class="card-sub" id="localtime">—</div>
+          </div>
+        </div>
+        <div class="grid grid-2" style="margin-top:12px">
+          <div class="card">
+            <div class="card-label">Language</div>
+            <div class="card-value" id="lang">—</div>
+          </div>
+          <div class="card">
+            <div class="card-label">Do Not Track</div>
+            <div class="card-value" id="dnt">—</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- DEVICE TAB -->
+      <section class="tab-pane" id="tab-device">
+        <div class="grid grid-4">
+          <div class="card">
+            <div class="card-label">OS</div>
+            <div class="card-value" id="os">—</div>
+          </div>
+          <div class="card">
+            <div class="card-label">Browser</div>
+            <div class="card-value" id="browser">—</div>
+          </div>
+          <div class="card">
+            <div class="card-label">Screen</div>
+            <div class="card-value" id="screen">—</div>
+          </div>
+          <div class="card">
+            <div class="card-label">Color Depth</div>
+            <div class="card-value" id="colordepth">—</div>
+          </div>
+        </div>
+        <div class="grid grid-3" style="margin-top:12px">
+          <div class="card">
+            <div class="card-label">CPU Cores</div>
+            <div class="card-value big accent" id="cpu">—</div>
+          </div>
+          <div class="card">
+            <div class="card-label">Device Memory</div>
+            <div class="card-value big accent" id="mem">—</div>
+            <div class="card-sub">GB (approx)</div>
+          </div>
+          <div class="card">
+            <div class="card-label">Touch Support</div>
+            <div class="card-value" id="touch">—</div>
+          </div>
+        </div>
+        <div class="card" style="margin-top:12px">
+          <div class="card-label">User Agent</div>
+          <div class="card-value small mono" id="ua">—</div>
+        </div>
+      </section>
+
+      <!-- NETWORK TAB -->
+      <section class="tab-pane" id="tab-network">
+        <div class="grid grid-2">
+          <div class="card">
+            <div class="card-label">Connection Type</div>
+            <div class="card-value big accent" id="conn-type">—</div>
+          </div>
+          <div class="card">
+            <div class="card-label">Downlink Speed</div>
+            <div class="card-value big accent" id="downlink">—</div>
+            <div class="card-sub">Mbps estimate</div>
+          </div>
+        </div>
+        <div class="grid grid-2" style="margin-top:12px">
+          <div class="card">
+            <div class="card-label">RTT (Round Trip)</div>
+            <div class="card-value" id="rtt">—</div>
+          </div>
+          <div class="card">
+            <div class="card-label">Data Saver</div>
+            <div class="card-value" id="datasaver">—</div>
+          </div>
+        </div>
+        <div class="card" style="margin-top:12px">
+          <div class="card-label">Battery Status</div>
+          <div style="display:flex;align-items:center;gap:16px;margin-top:8px">
+            <div class="card-value big" id="battery-pct">—</div>
+            <div style="flex:1">
+              <div class="card-sub" id="charging-status">—</div>
+              <div class="progress-bar"><div class="progress-fill" id="battery-bar"></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PERMISSIONS TAB -->
+      <section class="tab-pane" id="tab-permissions">
+        <div class="permissions-list">
+          <div class="perm-item">
+            <div class="perm-icon">CAM</div>
+            <div class="perm-name">Camera</div>
+            <div class="badge" id="perm-camera">checking...</div>
+          </div>
+          <div class="perm-item">
+            <div class="perm-icon">MIC</div>
+            <div class="perm-name">Microphone</div>
+            <div class="badge" id="perm-microphone">checking...</div>
+          </div>
+          <div class="perm-item">
+            <div class="perm-icon">GEO</div>
+            <div class="perm-name">Geolocation</div>
+            <div class="badge" id="perm-geolocation">checking...</div>
+          </div>
+          <div class="perm-item">
+            <div class="perm-icon">NOT</div>
+            <div class="perm-name">Notifications</div>
+            <div class="badge" id="perm-notifications">checking...</div>
+          </div>
+          <div class="perm-item">
+            <div class="perm-icon">COO</div>
+            <div class="perm-name">Cookies Enabled</div>
+            <div class="badge" id="perm-cookies">checking...</div>
+          </div>
+          <div class="perm-item">
+            <div class="perm-icon">STO</div>
+            <div class="perm-name">LocalStorage</div>
+            <div class="badge" id="perm-storage">checking...</div>
+          </div>
+          <div class="perm-item">
+            <div class="perm-icon">JS</div>
+            <div class="perm-name">JavaScript</div>
+            <div class="badge granted">granted</div>
+          </div>
+          <div class="perm-item">
+            <div class="perm-icon">PDF</div>
+            <div class="perm-name">PDF Viewer</div>
+            <div class="badge" id="perm-pdf">checking...</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PERFORMANCE TAB -->
+      <section class="tab-pane" id="tab-performance">
+        <div class="perf-table">
+          <div class="perf-row">
+            <span class="perf-label">Page Load Time</span>
+            <span class="perf-value accent mono" id="perf-load">—</span>
+          </div>
+          <div class="perf-row">
+            <span class="perf-label">DNS Lookup</span>
+            <span class="perf-value mono" id="perf-dns">—</span>
+          </div>
+          <div class="perf-row">
+            <span class="perf-label">TCP Connect</span>
+            <span class="perf-value mono" id="perf-tcp">—</span>
+          </div>
+          <div class="perf-row">
+            <span class="perf-label">DOM Interactive</span>
+            <span class="perf-value mono" id="perf-dom">—</span>
+          </div>
+          <div class="perf-row">
+            <span class="perf-label">DOM Content Loaded</span>
+            <span class="perf-value mono" id="perf-dcl">—</span>
+          </div>
+          <div class="perf-row">
+            <span class="perf-label">Redirect Count</span>
+            <span class="perf-value mono" id="perf-redirect">—</span>
+          </div>
+          <div class="perf-row">
+            <span class="perf-label">Dark Mode</span>
+            <span class="perf-value mono" id="darkmode">—</span>
+          </div>
+          <div class="perf-row">
+            <span class="perf-label">Hardware Acceleration</span>
+            <span class="perf-value mono" id="hwaccel">—</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- HEATMAP TAB -->
+      <section class="tab-pane" id="tab-heatmap">
+        <div class="card heatmap-card">
+          <div class="card-label">Mouse Movement Tracker — Move your cursor below</div>
+          <canvas id="heatmap" width="900" height="320"></canvas>
+          <div class="heatmap-stats">
+            <span>Moves: <b id="move-count">0</b></span>
+            <span>Last X: <b id="last-x">—</b></span>
+            <span>Last Y: <b id="last-y">—</b></span>
+            <button class="clear-btn" onclick="clearHeatmap()">Clear</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="footer">
+      <span>Browser Intelligence Dashboard &mdash; 100% client-side &mdash; No data stored or sent</span>
+      <span id="footer-time">—</span>
+    </footer>
+
+  </div>
+
+  <script src="js/utils.js"></script>
+  <script src="js/identity.js"></script>
+  <script src="js/device.js"></script>
+  <script src="js/network.js"></script>
+  <script src="js/permissions.js"></script>
+  <script src="js/performance.js"></script>
+  <script src="js/heatmap.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
